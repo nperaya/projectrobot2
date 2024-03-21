@@ -1,0 +1,362 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <xacro:include filename="inertial_macros.xacro" />
+
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <!-- BASE LINK -->
+
+    <link name="base_link">
+
+    </link>
+
+    <joint name="body_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="body"/>
+        <origin xyz="0 0 0"/>
+    </joint>
+
+    <link name="body">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/body2.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/body2.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="50" x="0.64" y="2" z="0.2">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    <gazebo reference="body">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+
+
+
+
+    <joint name="arm1_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="arm1"/>
+        <origin xyz="0 -1.5 0.78"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="arm1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/arm1.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/arm1.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="5" x="0.24" y="0.24" z="0.2">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    <gazebo reference="arm1">
+        <material>Gazebo/red</material>
+    </gazebo>
+
+    <gazebo reference="arm1">
+        <material>Gazebo/red</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+    </gazebo>
+
+
+
+
+    <joint name="updown_joint" type="prismatic">
+        <parent link="arm1"/>
+        <child link="updown"/>
+        <origin xyz="0 -0.82 -0.1"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0.0" upper="2" effort="-1" velocity="-1"/>
+    </joint>
+
+    <link name="updown">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/updown.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/updown.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="2" x="0.1" y="0.04" z="1.16">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    <gazebo reference="updown">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="updown">
+        <material>Gazebo/White</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+    </gazebo>
+
+
+
+
+    <joint name="Lgripper_joint" type="prismatic">
+        <parent link="updown"/>
+        <child link="Lgripper"/>
+        <origin xyz="-0.3 -0.3 -1.1"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="0.0" upper="0.23" effort="-1" velocity="-1"/>
+    </joint>
+
+    <link name="Lgripper">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/Lgripper.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/Lgripper.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.2" x="0.056" y="0.2" z="0.04">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    <gazebo reference="Lgripper">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+
+
+
+    <joint name="Rgripper_joint" type="prismatic">
+        <parent link="updown"/>
+        <child link="Rgripper"/>
+        <origin xyz="0.2 -0.3 -1.1"/>
+        <axis xyz="-1 0 0"/>
+        <limit lower="-0.23" upper="0" effort="-1" velocity="-1"/>
+    </joint>
+
+    <link name="Rgripper">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/Rgripper.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/Rgripper.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.2" x="0.056" y="0.2" z="0.04">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    <gazebo reference="Rgripper">
+        <material>Gazebo/White</material>
+    </gazebo>
+    
+
+
+
+
+
+    
+     <joint name="front_L_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="front_L_wheel"/>
+        <origin xyz="0.82 -1.2 -0.2" rpy="-${pi/2} 0 0"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+
+    <link name="front_L_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="10" x="0.4" y="0.4" z="0.16">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="front_L_wheel">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="arm1">
+        <material>Gazebo/White</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+    </gazebo>
+
+
+
+
+    <joint name="rear_L_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rear_L_wheel"/>
+        <origin xyz="0.82 1.2 -0.2" rpy="-${pi/2} 0 0"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+
+    <link name="rear_L_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="2" x="0.4" y="0.4" z="0.16">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="rear_L_wheel">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="arm1">
+        <material>Gazebo/White</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+    </gazebo>
+
+
+
+
+    <joint name="front_R_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="front_R_wheel"/>
+        <origin xyz="-0.82 -1.2 -0.2" rpy="-${pi/2} 0 0"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+
+    <link name="front_R_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="10" x="0.4" y="0.4" z="0.16">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="front_R_wheel">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="arm1">
+        <material>Gazebo/White</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+    </gazebo>
+
+
+
+
+    <joint name="rear_R_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rear_R_wheel"/>
+        <origin xyz="-0.82 1.2 -0.2" rpy="-${pi/2} 0 0"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+
+    <link name="rear_R_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/peeraya/project_arm_robot/wheel.dae" scale="0.2 0.2 0.2" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="2" x="0.4" y="0.4" z="0.16">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+     <gazebo reference="rear_R_wheel">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="arm1">
+        <material>Gazebo/White</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+    </gazebo>
+</robot>

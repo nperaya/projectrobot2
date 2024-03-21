@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <gazebo>
+        <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+    
+    
+            <!-- Wheel Information -->
+            <num_wheel_pairs>2</num_wheel_pairs>
+
+            <left_joint>front_L_wheel_joint</left_joint>
+            <left_joint>rear_L_wheel_joint</left_joint>
+
+            <right_joint>front_R_wheel_joint</right_joint>
+            <right_joint>rear_R_wheel_joint</right_joint>
+
+            <wheel_separation>0.5</wheel_separation>
+            <wheel_diameter>0.1</wheel_diameter>
+    
+
+            <!-- Limits -->
+            <max_wheel_torque>200</max_wheel_torque>
+            <max_wheel_acceleration>10.0</max_wheel_acceleration>
+    
+
+            <!-- Output -->
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_link</robot_base_frame>
+
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_wheel_tf>true</publish_wheel_tf>
+    
+    
+        </plugin>
+    </gazebo>
+
+    <xacro:macro name="robot_controller">
+        <gazebo>
+            <plugin name="gazebo_ros2_control_robot" filename="libgazebo_ros2_control.so">
+                <parameters>$(find articubot_one)/config/controllers.yaml</parameters>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+
+    <gazebo>
+
+         <plugin name="gazebo_ros_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+            <update_rate>20</update_rate>
+            <joint_name>arm1_joint</joint_name>
+            <joint_name>updown_joint</joint_name>
+            <joint_name>Lgripper_joint</joint_name>
+            <joint_name>Rgripper_joint</joint_name>
+        </plugin>
+        <plugin name="gazebo_ros_joint_pose_trajectory" filename="libgazebo_ros_joint_pose_trajectory.so">
+            <update_rate>20</update_rate>
+        </plugin>
+
+        <plugin name="transmission" filename="libgazebo_ros2_control.so">
+                    <robotNamespace>/</robotNamespace>
+                    <controlPeriod>0.001</controlPeriod>
+                    <robotParam>articubot_one</robotParam>
+                    <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+</robot>
+
